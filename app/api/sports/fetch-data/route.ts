@@ -1,10 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { createProgressSession, updateProgress } from '../progress/route'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
+
+// Constants for timeouts and parallel processing
+const API_TIMEOUT = 30000 // 30 seconds per API call
+const MAX_PARALLEL_CALLS = 4 // Split into 4 parallel operations
+const TOTAL_OPERATION_TIMEOUT = 120000 // 2 minutes total
+
+// Timeout wrapper for fetch operations
+async function fetchWithTimeout(url: string, options: RequestInit, timeout: number = API_TIMEOUT): Promise<Response> {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeout)
+  
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    })
+    clearTimeout(timeoutId)
+    return response
+  } catch (error) {
+    clearTimeout(timeoutId)
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Request timed out after ${timeout}ms`)
+    }
+    throw error
+  }
+}
+
+// Progress tracking for concurrent operations
+interface ProgressTracker {
+  total: number
+  completed: number
+  current_task: string
+  start_time: number
+}
+
+function createProgressTracker(total: number): ProgressTracker {
+  return {
+    total,
+    completed: 0,
+    current_task: 'Initializing...',
+    start_time: Date.now()
+  }
+}
 
 // Helper function to get API keys (they are not actually encrypted)
 function decryptAPIKey(keyFromDB: string): string {
@@ -55,12 +99,16 @@ function hasValidData(data: any, dataType: string): boolean {
   }
 }
 
+// Main GET handler with concurrent processing and progress tracking
 export async function GET(request: NextRequest) {
+  const overallStartTime = Date.now()
+  
   try {
     const { searchParams } = new URL(request.url)
     const dataType = searchParams.get('type') // 'fixtures', 'results', 'standings', 'teams'
     const league = searchParams.get('league') // Premier League, La Liga, etc.
     const region = searchParams.get('region') // for regional customization
+    const progressCallback = searchParams.get('progress') === 'true' // Enable progress tracking
 
     if (!dataType) {
       return NextResponse.json(
@@ -68,6 +116,12 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    // Initialize progress tracker
+    const sessionId = createProgressSession(MAX_PARALLEL_CALLS)
+    updateProgress(sessionId, { 
+      current_task: 'Getting available APIs...' 
+    })
 
     // Get available sports APIs from database
     const { data: sportsAPIs, error: apisError } = await supabase
@@ -80,68 +134,134 @@ export async function GET(request: NextRequest) {
       console.error('No sports APIs available:', apisError)
       // Fallback to comprehensive real data
       const sportsData = getRealSportsData(dataType, league || undefined)
-             await cacheSportsData(dataType, league || undefined, region || undefined, sportsData, 'fallback_real_data')
+      await cacheSportsData(dataType, league || undefined, region || undefined, sportsData, 'fallback_real_data')
       
       return NextResponse.json({
         success: true,
         data: sportsData,
         source: 'fallback_real_data',
-        cached_at: new Date().toISOString()
+        cached_at: new Date().toISOString(),
+        processing_time: Date.now() - overallStartTime,
+        session_id: sessionId
       })
+    }
+
+    updateProgress(sessionId, { 
+      current_task: 'Starting parallel API calls...' 
+    })
+    
+    // Split APIs into chunks for parallel processing
+    const apiChunks = []
+    for (let i = 0; i < sportsAPIs.length; i += MAX_PARALLEL_CALLS) {
+      apiChunks.push(sportsAPIs.slice(i, i + MAX_PARALLEL_CALLS))
     }
 
     let sportsData: any = undefined
     let apiUsed: string | null = null
+    let totalApiCallTime = 0
 
-    // Try each API in priority order
-    for (const api of sportsAPIs) {
+    // Process API chunks in parallel with timeout
+    for (const chunk of apiChunks) {
+      const chunkStartTime = Date.now()
+      
       try {
-        console.log(`Trying API: ${api.name}`)
-        
-        if (!api.api_key) {
-          console.log(`No API key for ${api.name}, skipping`)
-          continue
-        }
+        // Create parallel promises for current chunk
+                 const apiPromises = chunk.map(async (api, index) => {
+           try {
+             updateProgress(sessionId, { 
+               current_task: `Testing ${api.name}...` 
+             })
+            
+            if (!api.api_key) {
+              console.log(`No API key for ${api.name}, skipping`)
+              return { api, result: null, error: 'No API key' }
+            }
 
-        const apiKey = decryptAPIKey(api.api_key)
-        
-        if (!apiKey) {
-          console.log(`No API key available for ${api.name}, skipping`)
-          continue
-        }
+            const apiKey = decryptAPIKey(api.api_key)
+            
+            if (!apiKey) {
+              console.log(`No API key available for ${api.name}, skipping`)
+              return { api, result: null, error: 'Invalid API key' }
+            }
 
-        console.log(`Using API key for ${api.name}: ${apiKey.substring(0, 10)}...`)
-        
-        const apiResponse = await fetchFromAPI(api, dataType, league || undefined, apiKey)
-        
-        console.log(`API ${api.name} response:`, JSON.stringify(apiResponse, null, 2))
-        
-        // Check if API returned an error or empty data
-        if (apiResponse && !apiResponse.error && hasValidData(apiResponse, dataType)) {
-          sportsData = apiResponse
-          apiUsed = api.name
-          
-          // Update usage counter
-          await supabase
-            .from('sports_apis')
-            .update({
-              daily_calls_used: (api.daily_calls_used || 0) + 1,
-              last_called_at: new Date().toISOString()
-            })
-            .eq('id', api.id)
-          
-          console.log(`Successfully got valid data from ${api.name}`)
-          break
-        } else {
-          if (apiResponse?.error) {
-            console.log(`${api.name} returned error: ${apiResponse.error} - ${apiResponse.message || ''}`)
-          } else {
-            console.log(`${api.name} returned no valid data, trying next...`)
+            console.log(`Using API key for ${api.name}: ${apiKey.substring(0, 10)}...`)
+            
+                         const apiResponse = await fetchFromAPIWithTimeout(api, dataType, league || undefined, apiKey)
+             
+             updateProgress(sessionId, { 
+               completed: (await fetch(`/api/sports/progress?session=${sessionId}`).then(r => r.json()).then(d => d.progress.completed)) + 1,
+               current_task: `${api.name} completed`
+             })
+            
+            console.log(`API ${api.name} response received`)
+            
+            // Check if API returned an error or empty data
+            if (apiResponse && !apiResponse.error && hasValidData(apiResponse, dataType)) {
+              return { api, result: apiResponse, error: null }
+            } else {
+              return { 
+                api, 
+                result: null, 
+                error: apiResponse?.error || 'No valid data returned' 
+              }
+            }
+                     } catch (error) {
+             updateProgress(sessionId, { 
+               completed: (await fetch(`/api/sports/progress?session=${sessionId}`).then(r => r.json()).then(d => d.progress.completed)) + 1,
+               current_task: `${api.name} failed`,
+               error: `${api.name}: ${error instanceof Error ? error.message : 'Unknown error'}`
+             })
+             console.log(`${api.name} API failed:`, error)
+             return { api, result: null, error: error instanceof Error ? error.message : 'Unknown error' }
+           }
+        })
+
+        // Wait for all promises in current chunk with overall timeout
+        const chunkResults = await Promise.allSettled(
+          apiPromises.map(promise => 
+            Promise.race([
+              promise,
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Chunk timeout')), API_TIMEOUT)
+              )
+            ])
+          )
+        )
+
+        // Process results from current chunk
+        for (const result of chunkResults) {
+          if (result.status === 'fulfilled' && result.value) {
+            const { api, result: apiResult, error } = result.value as any
+            
+            if (apiResult && !error) {
+              sportsData = apiResult
+              apiUsed = api.name
+              
+              // Update usage counter
+              await supabase
+                .from('sports_apis')
+                .update({
+                  daily_calls_used: (api.daily_calls_used || 0) + 1,
+                  last_called_at: new Date().toISOString()
+                })
+                .eq('id', api.id)
+              
+              console.log(`Successfully got valid data from ${api.name}`)
+              break // Exit both loops when we find valid data
+            }
           }
         }
+
+        totalApiCallTime += Date.now() - chunkStartTime
+        
+        // Break if we found valid data or exceeded total timeout
+        if (sportsData || totalApiCallTime > TOTAL_OPERATION_TIMEOUT) {
+          break
+        }
+
       } catch (error) {
-        console.log(`${api.name} API failed:`, error)
-        continue
+        console.error('Error in chunk processing:', error)
+        totalApiCallTime += Date.now() - chunkStartTime
       }
     }
 
@@ -152,27 +272,40 @@ export async function GET(request: NextRequest) {
       apiUsed = 'real_data_fallback'
     }
 
-         // Format and cache the data
-     const formattedData = formatSportsData(sportsData, dataType, region || undefined)
-     await cacheSportsData(dataType, league || null, region || null, formattedData, apiUsed || null)
-
-    return NextResponse.json({
-      success: true,
-      data: formattedData,
-      source: apiUsed,
-      cached_at: new Date().toISOString()
+    updateProgress(sessionId, { 
+      current_task: 'Formatting and caching data...' 
     })
+    
+    // Format and cache the data
+    const formattedData = formatSportsData(sportsData, dataType, region || undefined)
+    await cacheSportsData(dataType, league || null, region || null, formattedData, apiUsed || null)
+
+    const totalProcessingTime = Date.now() - overallStartTime
+
+          return NextResponse.json({
+        success: true,
+        data: formattedData,
+        source: apiUsed,
+        cached_at: new Date().toISOString(),
+        processing_time: totalProcessingTime,
+        api_call_time: totalApiCallTime,
+        session_id: sessionId
+      })
 
   } catch (error) {
     console.error('Error fetching sports data:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        processing_time: Date.now() - overallStartTime
+      },
       { status: 500 }
     )
   }
 }
 
-async function fetchFromAPI(api: any, dataType: string, league?: string, apiKey?: string) {
+// Updated fetchFromAPI with timeout support
+async function fetchFromAPIWithTimeout(api: any, dataType: string, league?: string, apiKey?: string) {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   }
@@ -268,10 +401,10 @@ async function fetchFromAPI(api: any, dataType: string, league?: string, apiKey?
   const url = `${api.api_url.replace(/\/$/, '')}${endpoint}`
   console.log(`Fetching from: ${url}`)
 
-  const response = await fetch(url, {
+  const response = await fetchWithTimeout(url, {
     headers,
     next: { revalidate: 300 } // Cache for 5 minutes
-  })
+  }, API_TIMEOUT)
 
   if (!response.ok) {
     throw new Error(`${api.name} API error: ${response.status} ${response.statusText}`)
