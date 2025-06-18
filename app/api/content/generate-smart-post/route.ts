@@ -301,17 +301,48 @@ async function generateSmartPost(options: {
       break
   }
 
+  // Enhanced system context for African markets and multi-language support
+  let systemContext = ''
+  let enhancedPrompt = prompt
+  
+  // Language and region-specific context
+  switch (language) {
+    case 'am': // Amharic
+      systemContext = `You are an expert Ethiopian football analyst creating content in Amharic. Focus on Ethiopian teams and African competitions. Use respectful, formal tone appropriate for Ethiopian culture. Include relevant emoji and make content engaging for Ethiopian football fans. Always write in Amharic script.`
+      enhancedPrompt = `${prompt} Write this content in Amharic, focusing on Ethiopian football culture and values.`
+      break
+      
+    case 'sw': // Swahili  
+      systemContext = `You are an expert East African football analyst creating content in Swahili. Focus on Tanzanian, Kenyan, and East African football. Use energetic, youth-friendly tone. Include relevant emoji and cultural references that resonate with East African fans. Always write in Swahili.`
+      enhancedPrompt = `${prompt} Write this content in Swahili, focusing on East African football culture and community spirit.`
+      break
+      
+    case 'lg': // Luganda
+      systemContext = `You are an expert Ugandan football analyst creating content in Luganda. Focus on Ugandan teams and East African competitions. Use warm, community-focused tone. Include relevant emoji and references to local football culture. Always write in Luganda.`
+      enhancedPrompt = `${prompt} Write this content in Luganda, focusing on Ugandan football culture and community values.`
+      break
+      
+    case 'rw': // Kinyarwanda
+      systemContext = `You are an expert Rwandan football analyst creating content in Kinyarwanda. Focus on Rwandan teams and regional competitions. Use professional but accessible tone. Include relevant emoji and cultural elements important to Rwandan fans. Always write in Kinyarwanda.`
+      enhancedPrompt = `${prompt} Write this content in Kinyarwanda, focusing on Rwandan football culture and community pride.`
+      break
+      
+    default: // English with African focus
+      systemContext = `You are a professional African football content creator. Write engaging, factual content for Telegram posts in English focused on African audiences. Emphasize African leagues, teams, and players. Use appropriate emojis, format for readability, and include relevant hashtags. Always use real data when provided. Focus on East African markets (Ethiopia, Tanzania, Uganda, Rwanda, Kenya).`
+      enhancedPrompt = `${prompt} Focus on African football culture, local rivalries, and what matters to African football fans.`
+  }
+
   // Generate content with AI
   const response = await openai.chat.completions.create({
     model: "gpt-4",
     messages: [
       {
         role: "system",
-        content: `You are a professional sports content creator. Write engaging, factual content for Telegram posts in ${language}. Use appropriate emojis, format for readability, and include relevant hashtags. Always use real data when provided.`
+        content: systemContext
       },
       {
         role: "user",
-        content: `${prompt}\n\nSports Data: ${JSON.stringify(sportsData, null, 2)}`
+        content: `${enhancedPrompt}\n\nSports Data: ${JSON.stringify(sportsData, null, 2)}\n\nEnsure the content is culturally appropriate and engaging for African football fans. Use relevant emoji and maintain authentic ${language === 'en' ? 'English with African context' : language} language.`
       }
     ],
     temperature: 0.7,
@@ -334,6 +365,7 @@ async function generateSmartPost(options: {
       league,
       team,
       language,
+      region: 'africa',
       generatedAt: new Date().toISOString(),
       wordCount: content.split(' ').length,
       estimatedReadTime: Math.ceil(content.split(' ').length / 200)

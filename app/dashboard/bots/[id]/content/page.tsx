@@ -47,6 +47,330 @@ interface SportsAPI {
   rate_limit_per_hour: number
 }
 
+// Updated African-focused leagues data
+const POPULAR_AFRICAN_LEAGUES = [
+  // East Africa - Primary markets
+  {
+    id: 'eth_premier',
+    name: 'Ethiopian Premier League',
+    country: 'Ethiopia',
+    emoji: '🇪🇹',
+    priority: 1,
+    description: 'Ethiopia\'s top football division',
+    api_mapping: {
+      'apifootball': '302', // Needs verification
+      'api-football': '604', // Needs verification  
+      'football-data-org': null, // Not available
+      'soccersapi': 'ethiopia-premier-league'
+    }
+  },
+  {
+    id: 'tz_premier',
+    name: 'Tanzanian Premier League',
+    country: 'Tanzania',
+    emoji: '🇹🇿',
+    priority: 2,
+    description: 'Tanzania\'s top football division',
+    api_mapping: {
+      'apifootball': '351',
+      'api-football': '686',
+      'football-data-org': null,
+      'soccersapi': 'tanzania-premier-league'
+    }
+  },
+  {
+    id: 'ug_premier',
+    name: 'Uganda Premier League',
+    country: 'Uganda',
+    emoji: '🇺🇬',
+    priority: 3,
+    description: 'Uganda\'s top football division',
+    api_mapping: {
+      'apifootball': '389',
+      'api-football': '712',
+      'football-data-org': null,
+      'soccersapi': 'uganda-premier-league'
+    }
+  },
+  {
+    id: 'rw_premier',
+    name: 'Rwanda Premier League',
+    country: 'Rwanda',
+    emoji: '🇷🇼',
+    priority: 4,
+    description: 'Rwanda\'s top football division',
+    api_mapping: {
+      'apifootball': '337',
+      'api-football': '674',
+      'football-data-org': null,
+      'soccersapi': 'rwanda-premier-league'
+    }
+  },
+  {
+    id: 'ke_premier',
+    name: 'Kenyan Premier League',
+    country: 'Kenya',
+    emoji: '🇰🇪',
+    priority: 5,
+    description: 'Kenya\'s top football division',
+    api_mapping: {
+      'apifootball': '315',
+      'api-football': '644',
+      'football-data-org': null,
+      'soccersapi': 'kenya-premier-league'
+    }
+  },
+  // North Africa - Major leagues
+  {
+    id: 'eg_premier',
+    name: 'Egyptian Premier League',
+    country: 'Egypt',
+    emoji: '🇪🇬',
+    priority: 6,
+    description: 'Egypt\'s top football division',
+    api_mapping: {
+      'apifootball': '233',
+      'api-football': '233',
+      'football-data-org': null,
+      'soccersapi': 'egypt-premier-league'
+    }
+  },
+  {
+    id: 'ma_botola',
+    name: 'Botola Pro',
+    country: 'Morocco',
+    emoji: '🇲🇦',
+    priority: 7,
+    description: 'Morocco\'s top football division',
+    api_mapping: {
+      'apifootball': '322',
+      'api-football': '322',
+      'football-data-org': null,
+      'soccersapi': 'morocco-botola'
+    }
+  },
+  {
+    id: 'tn_ligue1',
+    name: 'Tunisian Ligue 1',
+    country: 'Tunisia',
+    emoji: '🇹🇳',
+    priority: 8,
+    description: 'Tunisia\'s top football division',
+    api_mapping: {
+      'apifootball': '384',
+      'api-football': '684',
+      'football-data-org': null,
+      'soccersapi': 'tunisia-ligue1'
+    }
+  },
+  // West Africa - Major leagues
+  {
+    id: 'gh_premier',
+    name: 'Ghana Premier League',
+    country: 'Ghana',
+    emoji: '🇬🇭',
+    priority: 9,
+    description: 'Ghana\'s top football division',
+    api_mapping: {
+      'apifootball': '270',
+      'api-football': '570',
+      'football-data-org': null,
+      'soccersapi': 'ghana-premier-league'
+    }
+  },
+  {
+    id: 'ng_npfl',
+    name: 'Nigeria Professional Football League',
+    country: 'Nigeria',
+    emoji: '🇳🇬',
+    priority: 10,
+    description: 'Nigeria\'s top football division',
+    api_mapping: {
+      'apifootball': '333',
+      'api-football': '667',
+      'football-data-org': null,
+      'soccersapi': 'nigeria-npfl'
+    }
+  },
+  // Southern Africa - Major leagues
+  {
+    id: 'za_psl',
+    name: 'DStv Premiership',
+    country: 'South Africa',
+    emoji: '🇿🇦',
+    priority: 11,
+    description: 'South Africa\'s top football division',
+    api_mapping: {
+      'apifootball': '364',
+      'api-football': '698',
+      'football-data-org': null,
+      'soccersapi': 'south-africa-psl'
+    }
+  },
+  {
+    id: 'zm_super',
+    name: 'Zambia Super League',
+    country: 'Zambia',
+    emoji: '🇿🇲',
+    priority: 12,
+    description: 'Zambia\'s top football division',
+    api_mapping: {
+      'apifootball': '411',
+      'api-football': '745',
+      'football-data-org': null,
+      'soccersapi': 'zambia-super-league'
+    }
+  }
+];
+
+// Major European & International leagues (popular globally including Africa)
+const INTERNATIONAL_LEAGUES = [
+  {
+    id: 'premier_league',
+    name: 'Premier League',
+    country: 'England',
+    emoji: '🇬🇧',
+    priority: 1,
+    description: 'England\'s top football division',
+    api_mapping: {
+      'apifootball': '152',
+      'api-football': '39',
+      'football-data-org': 'PL',
+      'soccersapi': 'premier-league'
+    }
+  },
+  {
+    id: 'la_liga',
+    name: 'La Liga',
+    country: 'Spain',
+    emoji: '🇪🇸',
+    priority: 2,
+    description: 'Spain\'s top football division',
+    api_mapping: {
+      'apifootball': '302',
+      'api-football': '140',
+      'football-data-org': 'PD',
+      'soccersapi': 'la-liga'
+    }
+  },
+  {
+    id: 'ligue1',
+    name: 'Ligue 1',
+    country: 'France',
+    emoji: '🇫🇷',
+    priority: 3,
+    description: 'France\'s top football division',
+    api_mapping: {
+      'apifootball': '168',
+      'api-football': '61',
+      'football-data-org': 'FL1',
+      'soccersapi': 'ligue-1'
+    }
+  },
+  {
+    id: 'bundesliga',
+    name: 'Bundesliga',
+    country: 'Germany',
+    emoji: '🇩🇪',
+    priority: 4,
+    description: 'Germany\'s top football division',
+    api_mapping: {
+      'apifootball': '175',
+      'api-football': '78',
+      'football-data-org': 'BL1',
+      'soccersapi': 'bundesliga'
+    }
+  },
+  {
+    id: 'serie_a',
+    name: 'Serie A',
+    country: 'Italy',
+    emoji: '🇮🇹',
+    priority: 5,
+    description: 'Italy\'s top football division',
+    api_mapping: {
+      'apifootball': '207',
+      'api-football': '135',
+      'football-data-org': 'SA',
+      'soccersapi': 'serie-a'
+    }
+  },
+  {
+    id: 'champions_league',
+    name: 'UEFA Champions League',
+    country: 'Europe',
+    emoji: '🏆',
+    priority: 1,
+    description: 'Premier European club competition',
+    api_mapping: {
+      'apifootball': '3',
+      'api-football': '2',
+      'football-data-org': 'CL',
+      'soccersapi': 'champions-league'
+    }
+  },
+  {
+    id: 'europa_league',
+    name: 'UEFA Europa League',
+    country: 'Europe',
+    emoji: '🥈',
+    priority: 2,
+    description: 'Secondary European club competition',
+    api_mapping: {
+      'apifootball': '4',
+      'api-football': '3',
+      'football-data-org': 'EL',
+      'soccersapi': 'europa-league'
+    }
+  },
+  {
+    id: 'world_cup',
+    name: 'FIFA World Cup',
+    country: 'World',
+    emoji: '🌍',
+    priority: 1,
+    description: 'FIFA World Cup and qualifiers',
+    api_mapping: {
+      'apifootball': '1',
+      'api-football': '1',
+      'football-data-org': 'WC',
+      'soccersapi': 'world-cup'
+    }
+  }
+];
+
+// Continental competitions popular in Africa
+const AFRICAN_CONTINENTAL_LEAGUES = [
+  {
+    id: 'caf_champions',
+    name: 'CAF Champions League',
+    country: 'Africa',
+    emoji: '🌍',
+    priority: 1,
+    description: 'Premier African club competition',
+    api_mapping: {
+      'apifootball': '12',
+      'api-football': '12',
+      'football-data-org': null,
+      'soccersapi': 'caf-champions-league'
+    }
+  },
+  {
+    id: 'caf_confederation',
+    name: 'CAF Confederation Cup',
+    country: 'Africa',
+    emoji: '🌍',
+    priority: 2,
+    description: 'Secondary African club competition',
+    api_mapping: {
+      'apifootball': '15',
+      'api-football': '15',
+      'football-data-org': null,
+      'soccersapi': 'caf-confederation-cup'
+    }
+  }
+];
+
 export default function BotContentPage() {
   const router = useRouter()
   const params = useParams()
