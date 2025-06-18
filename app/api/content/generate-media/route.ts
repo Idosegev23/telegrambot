@@ -182,7 +182,7 @@ async function generatePredictionCard(data: any, style: string = 'default') {
 
 // Utility functions for media generation
 
-export async function uploadToSupabaseStorage(
+async function uploadToSupabaseStorage(
   imageBuffer: Buffer,
   fileName: string,
   contentType: string = 'image/png'
@@ -208,7 +208,7 @@ export async function uploadToSupabaseStorage(
   }
 }
 
-export async function getTeamLogo(teamName: string): Promise<string | null> {
+async function getTeamLogo(teamName: string): Promise<string | null> {
   try {
     // Try to get logo from our database first
     const { data, error } = await supabase

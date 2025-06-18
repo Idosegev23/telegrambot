@@ -153,7 +153,7 @@ export async function GET(request: NextRequest) {
     }
 
          // Format and cache the data
-     const formattedData = formatSportsData(sportsData, dataType, region)
+     const formattedData = formatSportsData(sportsData, dataType, region || undefined)
      await cacheSportsData(dataType, league || null, region || null, formattedData, apiUsed || null)
 
     return NextResponse.json({

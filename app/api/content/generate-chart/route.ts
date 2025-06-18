@@ -364,7 +364,7 @@ function generateSportsChartVariations(data: any, baseType: string) {
 }
 
 // Helper function to create chart from sports data
-export function createSportsChart(type: 'goals' | 'possession' | 'shots' | 'cards', matchData: any) {
+function createSportsChart(type: 'goals' | 'possession' | 'shots' | 'cards', matchData: any) {
   switch (type) {
     case 'goals':
       return {

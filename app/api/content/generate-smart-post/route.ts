@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const requestBody = await req.json()
     const { 
       action,
       league,
@@ -31,8 +32,10 @@ export async function POST(req: NextRequest) {
       language = 'en',
       includeCharts = false,
       channelId,
-      isAutomatic = false
-    } = await req.json()
+      isAutomatic = false,
+      content,
+      charts
+    } = requestBody
 
     let result: any = {}
 
@@ -58,13 +61,13 @@ export async function POST(req: NextRequest) {
       case 'send-to-channel':
         result = await sendToTelegramChannel({
           channelId,
-          content: req.body.content,
-          charts: req.body.charts
+          content,
+          charts
         })
         break
         
       case 'schedule-automation':
-        result = await setupAutomation(req.body)
+        result = await setupAutomation(requestBody)
         break
         
       default:
@@ -141,7 +144,7 @@ async function scanLatestSportsData(league?: string) {
 }
 
 async function getTeamsForLeague(league: string) {
-  const teamsData = {
+  const teamsData: Record<string, Array<{id: string, name: string, emoji: string}>> = {
     'Premier League': [
       { id: 'mun', name: 'Manchester United', emoji: '🔴' },
       { id: 'mci', name: 'Manchester City', emoji: '🔵' },
