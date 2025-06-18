@@ -1,0 +1,98 @@
+# Multi-language Sports Telegram Bot Platform - Cursor Rules
+
+## Project Intelligence & Patterns
+
+### Critical Project Context
+This is a **multi-language, multi-region sports content platform** for African markets. Key unique aspects:
+- **5 languages**: Amharic (Ethiopia), Swahili (Tanzania), Luganda (Uganda), Kinyarwanda (Rwanda), English (fallback)
+- **Regional customization**: Content adapted per country/region with local teams + international leagues
+- **Automated translation**: GPT-4 + Google Translate with fallback strategies
+- **Telegram bot management**: Multiple bots per client, each with region-specific behavior
+
+### Language & Cultural Considerations ⚠️
+1. **UTF-8 Critical**: All text must support African languages (Amharic uses Ge'ez script)
+2. **RTL/LTR Mix**: Handle both text directions in same interface
+3. **Cultural Sensitivity**: Different regions have different communication styles:
+   - Ethiopia: More formal tone
+   - Tanzania: More energetic, youth-focused
+   - Each region has different popular local teams
+
+### Database Design Patterns
+- **JSONB for translations**: `name_translations JSONB` allows flexible language support
+- **Region-first approach**: Every entity linked to `region_id` for proper localization
+- **Fallback hierarchy**: EN -> Regional default -> any available translation
+- **Encrypted tokens**: All Telegram bot tokens encrypted at rest
+
+### Translation Strategy
+```javascript
+// Pattern: Always check cache first, then translation service, then fallback
+async translateText(text, targetLang, context) {
+  // 1. Check Redis cache
+  const cached = await redis.get(`translation:${hash}:${targetLang}`);
+  if (cached) return cached;
+  
+  // 2. Try primary translation service (GPT-4)
+  try {
+    const result = await gptTranslate(text, targetLang, context);
+    await redis.setex(`translation:${hash}:${targetLang}`, 3600, result);
+    return result;
+  } catch (error) {
+    // 3. Fallback to Google Translate
+    return await googleTranslate(text, targetLang);
+  }
+}
+```
+
+### Content Generation Patterns
+- **Template-based**: Use `{variables}` in templates for dynamic content
+- **Regional customization**: Different emoji/styling per region
+- **Sports API integration**: Always cache sports data (changes infrequently)
+- **Scheduling**: Bull Queue for background post processing
+
+### Tech Stack Decisions & Rationale
+- **Next.js**: International routing built-in, perfect for multi-language admin
+- **Express.js**: Better Node.js ecosystem for Telegram bots vs Python
+- **Supabase**: PostgreSQL + Auth + Storage + Edge functions in one
+- **Redis**: Essential for translation caching and performance
+- **Turborepo**: Monorepo for code sharing between web/api
+
+### Security & Performance Patterns
+1. **Token encryption**: Never store bot tokens in plain text
+2. **Rate limiting**: All external APIs (sports, translation, Telegram)
+3. **Circuit breaker**: For unreliable sports APIs
+4. **Caching TTL strategy**:
+   - Translations: 1 hour
+   - Sports data: 30 minutes
+   - User sessions: 24 hours
+
+### Common Pitfalls to Avoid
+1. **Don't hardcode languages**: Always use language codes from DB
+2. **Don't assume ASCII**: All regex/text processing must handle Unicode
+3. **Don't forget fallbacks**: Every translation must have English fallback
+4. **Don't block on translations**: Async processing essential
+
+### Development Workflow
+1. **Start with English**: Build features in English first
+2. **Add translations incrementally**: One language at a time
+3. **Test with real data**: Use actual Amharic/Swahili for testing
+4. **Monitor translation quality**: Log translation failures for improvement
+
+### API Design Patterns
+- **Language header**: `Accept-Language: am` or query param `?lang=am`
+- **Region context**: Include `region_id` in all relevant endpoints
+- **Pagination**: All lists must paginate (sports data can be large)
+- **Error codes**: Consistent error structure with i18n error messages
+
+### Deployment Considerations
+- **Environment-specific configs**: Different sports APIs for dev/prod
+- **Redis clustering**: Production needs Redis cluster for performance
+- **CDN for assets**: Team logos, flags must be CDN-served
+- **Webhook security**: Telegram webhook signature validation essential
+
+### Memory Bank Usage
+- Always update `activeContext.md` after major decisions
+- Document new patterns in `systemPatterns.md`
+- Track progress in `progress.md` after each phase
+- Update `techContext.md` when adding new dependencies
+
+This is a culturally-sensitive, performance-critical, multi-language platform. Every technical decision should consider the unique African market needs and scale requirements. 
