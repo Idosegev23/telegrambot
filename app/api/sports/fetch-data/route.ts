@@ -499,8 +499,8 @@ function formatSportsData(data: any, dataType: string, region?: string) {
       const fixturesData = extractDataArray(data)
       formatted.content = {
         upcoming_matches: fixturesData.slice(0, 10).map((match: any) => ({
-          home_team: match.homeTeam?.name || match.team_home || match.home_team || match.teams?.home?.name || 'TBD',
-          away_team: match.awayTeam?.name || match.team_away || match.away_team || match.teams?.away?.name || 'TBD',
+          home_team: match.homeTeam?.name || match.team_home || match.home_team || match.teams?.home?.name || match.match_hometeam_name || 'TBD',
+          away_team: match.awayTeam?.name || match.team_away || match.away_team || match.teams?.away?.name || match.match_awayteam_name || 'TBD',
           date: match.utcDate || match.match_date || match.fixture?.date || match.match_time,
           time: match.utcDate ? new Date(match.utcDate).toLocaleTimeString() : (match.match_time || 'TBD'),
           competition: match.competition?.name || match.league_name || match.league?.name || 'Unknown League'
@@ -512,8 +512,8 @@ function formatSportsData(data: any, dataType: string, region?: string) {
       const resultsData = extractDataArray(data)
       formatted.content = {
         recent_results: resultsData.slice(0, 10).map((match: any) => ({
-          home_team: match.homeTeam?.name || match.team_home || match.home_team || match.teams?.home?.name || 'TBD',
-          away_team: match.awayTeam?.name || match.team_away || match.away_team || match.teams?.away?.name || 'TBD',
+          home_team: match.homeTeam?.name || match.team_home || match.home_team || match.teams?.home?.name || match.match_hometeam_name || 'TBD',
+          away_team: match.awayTeam?.name || match.team_away || match.away_team || match.teams?.away?.name || match.match_awayteam_name || 'TBD',
           home_score: match.score?.fullTime?.home || match.team_home_score || match.goals?.home || match.match_hometeam_score || 0,
           away_score: match.score?.fullTime?.away || match.team_away_score || match.goals?.away || match.match_awayteam_score || 0,
           date: match.utcDate || match.match_date || match.fixture?.date || match.match_time,
