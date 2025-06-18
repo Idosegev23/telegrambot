@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { createProgressSession, updateProgress } from '../progress/route'
+import { createProgressSession, updateProgress, getProgress } from '@/lib/progress-manager'
 import { sportsCache } from '@/lib/sports-api-cache'
+
+export const dynamic = 'force-dynamic'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -51,35 +53,12 @@ function createProgressTracker(total: number): ProgressTracker {
   }
 }
 
-// Helper function to get API keys (they are not actually encrypted)
-function decryptAPIKey(keyFromDB: string): string {
+// Helper function to get API keys (they are stored as plain text)
+function getAPIKey(keyFromDB: string): string {
   if (!keyFromDB) return ''
   
-  // Check if the key is already plain text (not encrypted)
-  const trimmedKey = keyFromDB.trim()
-  
-  // If it contains newlines, it might be in a multi-line format
-  // Take the first line as the key
-  if (trimmedKey.includes('\n')) {
-    return trimmedKey.split('\n')[0].trim()
-  }
-  
-  // If it looks like a plain API key, return as is
-  if (trimmedKey.length > 10 && !trimmedKey.includes(' ')) {
-    return trimmedKey
-  }
-  
-  // Try base64 decoding as fallback
-  try {
-    const decoded = Buffer.from(trimmedKey, 'base64').toString('utf8')
-    if (decoded && decoded.length > 10) {
-      return decoded.trim()
-    }
-  } catch (e) {
-    // Not base64 encoded
-  }
-  
-  return trimmedKey
+  // Simply trim and return the key as-is
+  return keyFromDB.trim()
 }
 
 // Helper function to check if API returned valid data
@@ -199,19 +178,28 @@ export async function GET(request: NextRequest) {
               return { api, result: null, error: 'No API key' }
             }
 
-            const apiKey = decryptAPIKey(api.api_key)
+            const apiKey = getAPIKey(api.api_key)
             
             if (!apiKey) {
               console.log(`No API key available for ${api.name}, skipping`)
               return { api, result: null, error: 'Invalid API key' }
             }
 
-            console.log(`Using API key for ${api.name}: ${apiKey.substring(0, 10)}...`)
+            // Validate API key format
+            if (apiKey.includes('\n') || apiKey.includes('\r') || apiKey.length < 10) {
+              console.log(`Invalid API key format for ${api.name}, skipping`)
+              return { api, result: null, error: 'Invalid API key format' }
+            }
+            
+            console.log(`Using API key for ${api.name}: ${apiKey.substring(0, 10)}... (length: ${apiKey.length})`)
             
                          const apiResponse = await fetchFromAPIWithTimeout(api, dataType, league || undefined, apiKey)
              
+             // Get current progress and increment
+             const currentProgress = getProgress(sessionId)
+             const newCompleted = (currentProgress?.completed || 0) + 1
              updateProgress(sessionId, { 
-               completed: (await fetch(`/api/sports/progress?session=${sessionId}`).then(r => r.json()).then(d => d.progress.completed)) + 1,
+               completed: newCompleted,
                current_task: `${api.name} completed`
              })
             
@@ -228,8 +216,11 @@ export async function GET(request: NextRequest) {
               }
             }
                      } catch (error) {
+             // Get current progress and increment
+             const currentProgress = getProgress(sessionId)
+             const newCompleted = (currentProgress?.completed || 0) + 1
              updateProgress(sessionId, { 
-               completed: (await fetch(`/api/sports/progress?session=${sessionId}`).then(r => r.json()).then(d => d.progress.completed)) + 1,
+               completed: newCompleted,
                current_task: `${api.name} failed`,
                error: `${api.name}: ${error instanceof Error ? error.message : 'Unknown error'}`
              })
