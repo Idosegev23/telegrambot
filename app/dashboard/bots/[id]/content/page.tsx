@@ -120,6 +120,37 @@ export default function BotContentPage() {
   
   const [errors, setErrors] = useState<{[key: string]: string}>({})
 
+  // Helper function to get team emoji
+  const getTeamEmoji = (teamName: string): string => {
+    if (!teamName) return '⚽'
+    const name = teamName.toLowerCase()
+    
+    // Common team emoji mappings
+    if (name.includes('real') && name.includes('madrid')) return '⚪'
+    if (name.includes('barcelona')) return '🔵'
+    if (name.includes('atletico')) return '🔴'
+    if (name.includes('manchester') && name.includes('united')) return '🔴'
+    if (name.includes('manchester') && name.includes('city')) return '🔵'
+    if (name.includes('liverpool')) return '🔴'
+    if (name.includes('chelsea')) return '🔵'
+    if (name.includes('arsenal')) return '🔴'
+    if (name.includes('tottenham')) return '⚪'
+    if (name.includes('bayern')) return '🔴'
+    if (name.includes('juventus')) return '⚪'
+    if (name.includes('psg') || name.includes('paris')) return '🔵'
+    
+    // Generic emojis based on common words
+    if (name.includes('united') || name.includes('red')) return '🔴'
+    if (name.includes('city') || name.includes('blue')) return '🔵'
+    if (name.includes('white') || name.includes('real')) return '⚪'
+    if (name.includes('black')) return '⚫'
+    if (name.includes('green')) return '🟢'
+    if (name.includes('yellow')) return '🟡'
+    
+    // Default emoji
+    return '⚽'
+  }
+
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
@@ -1144,56 +1175,58 @@ export default function BotContentPage() {
               {/* Step Content */}
               {smartPostStep === 'scan' && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">📡 Scan Real Sports Data</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Fetching the latest real sports data from multiple APIs to create authentic content.</p>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">📡 סריקת נתונים אמיתיים</h3>
+                  <p className="text-gray-600 dark:text-gray-400">אחזור הנתונים הספורטיביים העדכניים מ-APIs מרובים ליצירת תוכן אותנטי.</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-center">
-                      <div className="text-2xl mb-2">⚽</div>
-                      <div className="text-sm font-medium text-blue-900 dark:text-blue-300">Match Results</div>
-                      <div className="text-xs text-blue-700 dark:text-blue-400">Latest completed matches</div>
-                    </div>
-                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center">
-                      <div className="text-2xl mb-2">📊</div>
-                      <div className="text-sm font-medium text-green-900 dark:text-green-300">League Standings</div>
-                      <div className="text-xs text-green-700 dark:text-green-400">Current table positions</div>
-                    </div>
-                    <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 text-center">
-                      <div className="text-2xl mb-2">🔮</div>
-                      <div className="text-sm font-medium text-purple-900 dark:text-purple-300">Upcoming Fixtures</div>
-                      <div className="text-xs text-purple-700 dark:text-purple-400">Scheduled matches</div>
-                    </div>
+                                          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl mb-2">⚽</div>
+                        <div className="text-sm font-medium text-blue-900 dark:text-blue-300">תוצאות משחקים</div>
+                        <div className="text-xs text-blue-700 dark:text-blue-400">משחקים שהסתיימו לאחרונה</div>
+                      </div>
+                      <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl mb-2">📊</div>
+                        <div className="text-sm font-medium text-green-900 dark:text-green-300">טבלת ליגה</div>
+                        <div className="text-xs text-green-700 dark:text-green-400">דירוגים נוכחיים</div>
+                      </div>
+                      <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl mb-2">🔮</div>
+                        <div className="text-sm font-medium text-purple-900 dark:text-purple-300">משחקים מתוכננים</div>
+                        <div className="text-xs text-purple-700 dark:text-purple-400">משחקים עתידיים</div>
+                      </div>
                   </div>
                   
                   <button
                     onClick={async () => {
                       setSmartPostLoading(true)
                       try {
-                        // Use the existing function to fetch real sports data
-                        const { content, charts } = await generateRealSportsPost('results')
+                        // Fetch real sports data using our new smart post API
+                        const scanData = await handleSmartPostAction('scan-latest')
                         
-                        // Extract data for display
-                        setLatestSportsData({
-                          totalMatches: 8,
-                          liveMatches: 2,
-                          recentNews: 5,
-                          availableLeagues: ['Premier League', 'La Liga', 'Champions League', 'Serie A', 'Bundesliga'],
-                          realData: { content, charts }
-                        })
-                        setAvailableLeagues(['Premier League', 'La Liga', 'Champions League', 'Serie A', 'Bundesliga'])
-                        setSmartPostStep('select-league')
+                        if (scanData) {
+                          setLatestSportsData(scanData)
+                          setAvailableLeagues(scanData.availableLeagues || [])
+                          setSmartPostStep('select-league')
+                        } else {
+                          // Fallback to basic real data
+                          const response = await fetch('/api/content/test-real-data')
+                          const result = await response.json()
+                          
+                          if (result.success) {
+                            setLatestSportsData({
+                              totalMatches: result.data.totalMatches,
+                              recentResults: result.data.recentResults,
+                              upcomingMatches: result.data.upcomingMatches,
+                              availableLeagues: result.data.availableLeagues,
+                              realData: result.data.realDataExample
+                            })
+                            setAvailableLeagues(result.data.availableLeagues || [])
+                            setSmartPostStep('select-league')
+                          }
+                        }
                       } catch (error) {
                         console.error('Error fetching sports data:', error)
-                        // Fallback to demo data
-                        setLatestSportsData({
-                          totalMatches: 5,
-                          liveMatches: 0,
-                          recentNews: 3,
-                          availableLeagues: ['Premier League', 'La Liga', 'Champions League'],
-                          realData: null
-                        })
-                        setAvailableLeagues(['Premier League', 'La Liga', 'Champions League'])
-                        setSmartPostStep('select-league')
+                        setErrors(prev => ({ ...prev, general: 'Failed to fetch real sports data. Please try again.' }))
                       } finally {
                         setSmartPostLoading(false)
                       }
@@ -1204,11 +1237,11 @@ export default function BotContentPage() {
                     {smartPostLoading ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                        Fetching Real Data...
+                        סורק נתונים אמיתיים...
                       </>
                     ) : (
                       <>
-                        🔍 Scan Real Sports Data
+                        🔍 סרוק נתונים אמיתיים
                       </>
                     )}
                   </button>
@@ -1217,16 +1250,31 @@ export default function BotContentPage() {
 
               {smartPostStep === 'select-league' && latestSportsData && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">⚽ Select League</h3>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">⚽ בחירת ליגה</h3>
                   <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                    <p className="text-green-800 dark:text-green-200 text-sm">
-                      📊 Real data found: {latestSportsData.totalMatches} recent matches, {latestSportsData.liveMatches} live games, {latestSportsData.recentNews} news items
+                    <p className="text-green-800 dark:text-green-200 text-sm font-medium">
+                      📊 נתונים אמיתיים נמצאו: {latestSportsData.totalMatches || 0} משחקים,  
+                      {latestSportsData.recentResults || 0} תוצאות אחרונות, 
+                      {latestSportsData.upcomingMatches || 0} משחקים מתוכננים
                     </p>
                     {latestSportsData.realData && (
-                      <div className="mt-2 text-xs text-green-700 dark:text-green-300">
-                        ✅ Using live sports data • Source: API-Football • Updated: {new Date().toLocaleTimeString('en-US')}
+                      <div className="mt-3 p-3 bg-white dark:bg-gray-800 rounded border text-xs">
+                        <div className="font-semibold text-green-700 dark:text-green-300 mb-1">דוגמה לנתונים אמיתיים:</div>
+                        {latestSportsData.realData.recentMatch && (
+                          <div className="text-green-600 dark:text-green-400">
+                            ⚽ {latestSportsData.realData.recentMatch.teams} ({latestSportsData.realData.recentMatch.score})
+                          </div>
+                        )}
+                        {latestSportsData.realData.upcomingMatch && (
+                          <div className="text-blue-600 dark:text-blue-400 mt-1">
+                            🔮 {latestSportsData.realData.upcomingMatch.teams} - {latestSportsData.realData.upcomingMatch.date}
+                          </div>
+                        )}
                       </div>
                     )}
+                    <div className="mt-2 text-xs text-green-700 dark:text-green-300">
+                      ✅ מקור: APIs ספורט אמיתיים • עודכן: {new Date().toLocaleTimeString('he-IL')}
+                    </div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1249,25 +1297,33 @@ export default function BotContentPage() {
                             setSmartPostLoading(true)
                             
                             try {
-                              // Fetch real teams data for the selected league
-                              const { content } = await generateRealSportsPost('standings')
+                              // Fetch real teams data for the selected league using our smart post API
+                              const teamsData = await handleSmartPostAction('get-teams', { league })
                               
-                              // Extract team names from real content or use fallback
-                              const teamsData = {
-                                'Premier League': [
-                                  { id: 'mun', name: 'Manchester United', emoji: '🔴', points: 45, position: 6 },
-                                  { id: 'mci', name: 'Manchester City', emoji: '🔵', points: 58, position: 2 },
-                                  { id: 'liv', name: 'Liverpool', emoji: '🔴', points: 60, position: 1 },
-                                  { id: 'che', name: 'Chelsea', emoji: '🔵', points: 42, position: 8 },
-                                  { id: 'ars', name: 'Arsenal', emoji: '🔴', points: 56, position: 3 }
-                                ],
-                                'La Liga': [
-                                  { id: 'rm', name: 'Real Madrid', emoji: '⚪', points: 65, position: 1 },
-                                  { id: 'bar', name: 'Barcelona', emoji: '🔵', points: 58, position: 2 },
-                                  { id: 'atm', name: 'Atletico Madrid', emoji: '🔴', points: 52, position: 4 }
-                                ]
+                              if (teamsData && teamsData.length > 0) {
+                                setAvailableTeams(teamsData)
+                              } else {
+                                // Fallback: try to extract teams from standings data
+                                const response = await fetch('/api/sports/fetch-data?type=standings')
+                                const result = await response.json()
+                                
+                                if (result.success && result.data?.content?.table) {
+                                  const realTeams = result.data.content.table.slice(0, 10).map((entry: any, index: number) => ({
+                                    id: entry.team?.toLowerCase().replace(/\s+/g, '_') || `team_${index}`,
+                                    name: entry.team || 'Unknown Team',
+                                    emoji: getTeamEmoji(entry.team || ''),
+                                    position: entry.position || index + 1,
+                                    points: entry.points || 0,
+                                    played: entry.played || 0,
+                                    wins: entry.wins || 0,
+                                    draws: entry.draws || 0,
+                                    losses: entry.losses || 0
+                                  }))
+                                  setAvailableTeams(realTeams)
+                                } else {
+                                  setAvailableTeams([])
+                                }
                               }
-                              setAvailableTeams(teamsData[league as keyof typeof teamsData] || [])
                               setSmartPostStep('select-team')
                             } catch (error) {
                               console.error('Error fetching teams:', error)
@@ -1303,7 +1359,7 @@ export default function BotContentPage() {
 
               {smartPostStep === 'select-team' && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">🏆 Select Team ({selectedLeague})</h3>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">🏆 בחירת קבוצה ({selectedLeague})</h3>
                   
                   <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
                     <p className="text-blue-800 dark:text-blue-200 text-sm">
