@@ -57,25 +57,49 @@ function createProgressTracker(total: number): ProgressTracker {
 function getAPIKey(keyFromDB: string): string {
   if (!keyFromDB) return ''
   
-  // Simply trim and return the key as-is
-  return keyFromDB.trim()
+  // Clean the key: remove newlines, spaces, and other whitespace
+  return keyFromDB.replace(/[\n\r\s]+/g, '').trim()
 }
 
 // Helper function to check if API returned valid data
 function hasValidData(data: any, dataType: string): boolean {
   if (!data) return false
   
+  // More flexible validation - accept any data that's not empty
+  // Different APIs return different structures
+  
+  // Check for common error patterns
+  if (data.error || data.message) return false
+  
   switch (dataType) {
     case 'fixtures':
-      return data.matches && Array.isArray(data.matches) && data.matches.length > 0
+      // Accept multiple possible structures
+      return (data.matches && Array.isArray(data.matches) && data.matches.length > 0) ||
+             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+             (Array.isArray(data) && data.length > 0)
+             
     case 'results':
-      return data.matches && Array.isArray(data.matches) && data.matches.length > 0
+      return (data.matches && Array.isArray(data.matches) && data.matches.length > 0) ||
+             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+             (Array.isArray(data) && data.length > 0)
+             
     case 'standings':
-      return data.standings && Array.isArray(data.standings) && data.standings.length > 0
+      return (data.standings && Array.isArray(data.standings) && data.standings.length > 0) ||
+             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+             (Array.isArray(data) && data.length > 0)
+             
     case 'teams':
-      return data.teams && Array.isArray(data.teams) && data.teams.length > 0
+      return (data.teams && Array.isArray(data.teams) && data.teams.length > 0) ||
+             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+             (Array.isArray(data) && data.length > 0)
+             
     default:
-      return false
+      // For any other data type, accept non-empty objects or arrays
+      return typeof data === 'object' && Object.keys(data).length > 0
   }
 }
 
@@ -206,6 +230,12 @@ export async function GET(request: NextRequest) {
             console.log(`API ${api.name} response received`)
             
             // Check if API returned an error or empty data
+            console.log(`API ${api.name} response:`, { 
+              hasError: !!apiResponse?.error, 
+              hasValidData: hasValidData(apiResponse, dataType),
+              dataKeys: Object.keys(apiResponse || {})
+            })
+            
             if (apiResponse && !apiResponse.error && hasValidData(apiResponse, dataType)) {
               return { api, result: apiResponse, error: null }
             } else {
@@ -447,55 +477,65 @@ function formatSportsData(data: any, dataType: string, region?: string) {
     content: {}
   }
 
+  // Extract data from various API structures
+  const extractDataArray = (data: any) => {
+    return data.matches || data.response || data.data || (Array.isArray(data) ? data : [])
+  }
+
   switch (dataType) {
     case 'fixtures':
+      const fixturesData = extractDataArray(data)
       formatted.content = {
-        upcoming_matches: data.matches?.slice(0, 10).map((match: any) => ({
-          home_team: match.homeTeam?.name || match.team_home || 'TBD',
-          away_team: match.awayTeam?.name || match.team_away || 'TBD',
-          date: match.utcDate || match.match_date,
-          time: match.utcDate ? new Date(match.utcDate).toLocaleTimeString() : 'TBD',
-          competition: match.competition?.name || match.league_name || 'Unknown League'
-        })) || []
+        upcoming_matches: fixturesData.slice(0, 10).map((match: any) => ({
+          home_team: match.homeTeam?.name || match.team_home || match.home_team || match.teams?.home?.name || 'TBD',
+          away_team: match.awayTeam?.name || match.team_away || match.away_team || match.teams?.away?.name || 'TBD',
+          date: match.utcDate || match.match_date || match.fixture?.date || match.match_time,
+          time: match.utcDate ? new Date(match.utcDate).toLocaleTimeString() : (match.match_time || 'TBD'),
+          competition: match.competition?.name || match.league_name || match.league?.name || 'Unknown League'
+        }))
       }
       break
 
     case 'results':
+      const resultsData = extractDataArray(data)
       formatted.content = {
-        recent_results: data.matches?.slice(0, 10).map((match: any) => ({
-          home_team: match.homeTeam?.name || match.team_home || 'TBD',
-          away_team: match.awayTeam?.name || match.team_away || 'TBD',
-          home_score: match.score?.fullTime?.home || match.team_home_score || 0,
-          away_score: match.score?.fullTime?.away || match.team_away_score || 0,
-          date: match.utcDate || match.match_date,
-          competition: match.competition?.name || match.league_name || 'Unknown League'
-        })) || []
+        recent_results: resultsData.slice(0, 10).map((match: any) => ({
+          home_team: match.homeTeam?.name || match.team_home || match.home_team || match.teams?.home?.name || 'TBD',
+          away_team: match.awayTeam?.name || match.team_away || match.away_team || match.teams?.away?.name || 'TBD',
+          home_score: match.score?.fullTime?.home || match.team_home_score || match.goals?.home || match.match_hometeam_score || 0,
+          away_score: match.score?.fullTime?.away || match.team_away_score || match.goals?.away || match.match_awayteam_score || 0,
+          date: match.utcDate || match.match_date || match.fixture?.date || match.match_time,
+          competition: match.competition?.name || match.league_name || match.league?.name || 'Unknown League'
+        }))
       }
       break
 
     case 'standings':
+      // Handle different standings structures
+      const standingsData = data.standings?.[0]?.table || data.response?.[0]?.league?.standings?.[0] || data.data || []
       formatted.content = {
-        table: data.standings?.[0]?.table?.slice(0, 10).map((team: any) => ({
-          position: team.position || team.overall_league_position,
-          team: team.team?.name || team.team_name,
-          points: team.points || team.overall_league_pts,
-          played: team.playedGames || team.overall_league_payed,
-          wins: team.won || team.overall_league_W,
-          draws: team.draw || team.overall_league_D,
-          losses: team.lost || team.overall_league_L
-        })) || []
+        table: standingsData.slice(0, 10).map((team: any) => ({
+          position: team.position || team.overall_league_position || team.rank,
+          team: team.team?.name || team.team_name || team.name,
+          points: team.points || team.overall_league_pts || team.pts,
+          played: team.playedGames || team.overall_league_payed || team.games_played,
+          wins: team.won || team.overall_league_W || team.wins,
+          draws: team.draw || team.overall_league_D || team.draws,
+          losses: team.lost || team.overall_league_L || team.losses
+        }))
       }
       break
 
     case 'teams':
+      const teamsData = extractDataArray(data)
       formatted.content = {
-        teams: data.teams?.slice(0, 20).map((team: any) => ({
-          name: team.name || team.team_name,
-          short_name: team.shortName || team.team_short_code,
-          logo: team.crest || team.team_logo,
-          founded: team.founded || null,
-          venue: team.venue || team.venue_name
-        })) || []
+        teams: teamsData.slice(0, 20).map((team: any) => ({
+          name: team.name || team.team_name || team.strTeam,
+          short_name: team.shortName || team.team_short_code || team.strTeamShort,
+          logo: team.crest || team.team_logo || team.strTeamBadge,
+          founded: team.founded || team.intFormedYear || null,
+          venue: team.venue || team.venue_name || team.strStadium
+        }))
       }
       break
   }
