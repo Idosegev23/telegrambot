@@ -71,35 +71,47 @@ function hasValidData(data: any, dataType: string): boolean {
   // Check for common error patterns
   if (data.error || data.message) return false
   
+  // If it's directly an array with data, accept it
+  if (Array.isArray(data) && data.length > 0) {
+    console.log(`hasValidData: Found direct array with ${data.length} items`)
+    return true
+  }
+  
   switch (dataType) {
     case 'fixtures':
-      // Accept multiple possible structures
-      return (data.matches && Array.isArray(data.matches) && data.matches.length > 0) ||
-             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
-             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
-             (Array.isArray(data) && data.length > 0)
-             
     case 'results':
-      return (data.matches && Array.isArray(data.matches) && data.matches.length > 0) ||
-             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
-             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
-             (Array.isArray(data) && data.length > 0)
+      // Accept multiple possible structures for matches/events
+      const hasMatches = (data.matches && Array.isArray(data.matches) && data.matches.length > 0) ||
+                        (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+                        (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+                        (Array.isArray(data) && data.length > 0)
+      
+      console.log(`hasValidData (${dataType}): hasMatches=${hasMatches}, dataKeys=${Object.keys(data || {})}`)
+      return hasMatches
              
     case 'standings':
-      return (data.standings && Array.isArray(data.standings) && data.standings.length > 0) ||
-             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
-             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
-             (Array.isArray(data) && data.length > 0)
+      const hasStandings = (data.standings && Array.isArray(data.standings) && data.standings.length > 0) ||
+                          (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+                          (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+                          (Array.isArray(data) && data.length > 0)
+      
+      console.log(`hasValidData (standings): hasStandings=${hasStandings}`)
+      return hasStandings
              
     case 'teams':
-      return (data.teams && Array.isArray(data.teams) && data.teams.length > 0) ||
-             (data.response && Array.isArray(data.response) && data.response.length > 0) ||
-             (data.data && Array.isArray(data.data) && data.data.length > 0) ||
-             (Array.isArray(data) && data.length > 0)
+      const hasTeams = (data.teams && Array.isArray(data.teams) && data.teams.length > 0) ||
+                      (data.response && Array.isArray(data.response) && data.response.length > 0) ||
+                      (data.data && Array.isArray(data.data) && data.data.length > 0) ||
+                      (Array.isArray(data) && data.length > 0)
+      
+      console.log(`hasValidData (teams): hasTeams=${hasTeams}`)
+      return hasTeams
              
     default:
       // For any other data type, accept non-empty objects or arrays
-      return typeof data === 'object' && Object.keys(data).length > 0
+      const isValid = typeof data === 'object' && Object.keys(data).length > 0
+      console.log(`hasValidData (default): isValid=${isValid}`)
+      return isValid
   }
 }
 
