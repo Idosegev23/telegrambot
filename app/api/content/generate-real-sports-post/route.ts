@@ -52,15 +52,17 @@ async function fetchRealSportsData(dataType: string, league?: string) {
   try {
     console.log('Fetching real sports data:', { dataType, league })
     
-    // Call our sports API to get real data
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const sportsResponse = await fetch(`${baseUrl}/api/sports/fetch-data?type=${dataType}&league=${league || 'premier-league'}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    })
+    // Import and call the sports fetch function directly instead of HTTP call
+    const { GET: fetchSportsData } = await import('@/app/api/sports/fetch-data/route')
+    
+    // Create a mock NextRequest object
+    const mockRequest = new Request(`http://localhost/api/sports/fetch-data?type=${dataType}&league=${league || 'premier-league'}`)
+    
+    const sportsResponse = await fetchSportsData(mockRequest as any)
+    const sportsData = await sportsResponse.json()
 
-    if (!sportsResponse.ok) {
-      console.error('Sports API failed:', await sportsResponse.text())
+    if (!sportsData.success) {
+      console.error('Sports API failed:', sportsData.error)
       // Fallback to demo data if API fails
       return NextResponse.json({
         success: true,
@@ -69,7 +71,6 @@ async function fetchRealSportsData(dataType: string, league?: string) {
       })
     }
 
-    const sportsData = await sportsResponse.json()
     console.log('Real sports data received:', sportsData)
 
     return NextResponse.json({
@@ -347,9 +348,11 @@ async function generateRealSportsCharts(sportsData: any): Promise<string[]> {
         }
     }
 
-    // Generate chart
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
-    const chartResponse = await fetch(`${baseUrl}/api/content/generate-chart`, {
+    // Import and call the chart generation function directly
+    const { POST: generateChart } = await import('@/app/api/content/generate-chart/route')
+    
+    // Create a mock NextRequest object
+    const mockRequest = new Request('http://localhost/api/content/generate-chart', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -365,12 +368,13 @@ async function generateRealSportsCharts(sportsData: any): Promise<string[]> {
       })
     })
 
-    if (!chartResponse.ok) {
+    const chartResponse = await generateChart(mockRequest as any)
+    const chartResult = await chartResponse.json()
+
+    if (!chartResult.success && !chartResult.data) {
       console.error('Chart generation failed')
       return []
     }
-
-    const chartResult = await chartResponse.json()
     
     const charts = []
     if (chartResult.data?.chartUrl) {
@@ -393,8 +397,11 @@ async function generateRealSportsCharts(sportsData: any): Promise<string[]> {
 
 async function enhanceContentWithAI(content: string, sportsData: any, language: string): Promise<string> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
-    const aiResponse = await fetch(`${baseUrl}/api/content/ai-translate`, {
+    // Import and call the AI translation function directly
+    const { POST: aiTranslate } = await import('@/app/api/content/ai-translate/route')
+    
+    // Create a mock NextRequest object
+    const mockRequest = new Request('http://localhost/api/content/ai-translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -404,11 +411,13 @@ async function enhanceContentWithAI(content: string, sportsData: any, language: 
       })
     })
 
-    if (!aiResponse.ok) {
+    const aiResponse = await aiTranslate(mockRequest as any)
+    const aiResult = await aiResponse.json()
+
+    if (!aiResult.success) {
       return content // Return original if AI fails
     }
 
-    const aiResult = await aiResponse.json()
     return aiResult.data?.translatedText || content
 
   } catch (error) {

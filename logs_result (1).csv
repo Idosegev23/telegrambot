@@ -1,0 +1,280 @@
+"TimeUTC","timestampInMs","requestPath","requestMethod","requestQueryString","responseStatusCode","requestId","requestUserAgent","level","environment","branch","vercelCache","type","function","host","deploymentDomain","deploymentId","durationMs","region","maxMemoryUsed","memorySize","message","projectId","traceId","sessionId","invocationId","instanceId"
+"2025-06-18 12:04:33",1750248273421,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"6sjks-1750248273212-7dbbe75fb4d6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error enhancing content with AI: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async w (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:15:1537)
+    at async h (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:3370)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2212)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3001
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3001
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETDBNR51HV3RAD7S002M9",""
+"2025-06-18 12:04:33",1750248273418,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"6sjks-1750248273212-7dbbe75fb4d6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error generating real sports charts: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async m (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:15:917)
+    at async h (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:3357)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2212)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3001
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3001
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETDBNR51HV3RAD7S002M9",""
+"2025-06-18 12:04:33",1750248273414,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"6sjks-1750248273212-7dbbe75fb4d6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Generating post with real data: {
+  botId: '639e27ae-47a9-4879-9b61-88f241b34624',
+  dataType: 'standings'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETDBNR51HV3RAD7S002M9",""
+"2025-06-18 12:04:33",1750248273414,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"6sjks-1750248273212-7dbbe75fb4d6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Real sports post request: {
+  action: 'generate-post-with-charts',
+  botId: '639e27ae-47a9-4879-9b61-88f241b34624',
+  league: undefined,
+  dataType: 'results'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETDBNR51HV3RAD7S002M9",""
+"2025-06-18 12:04:33",1750248273269,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",200,"6sjks-1750248273212-7dbbe75fb4d6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",136,"iad1",126,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETDBNR51HV3RAD7S002M9","CFr5EBgDXZxx"
+"2025-06-18 12:04:33",1750248273070,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"x472z-1750248272533-cb3383c6b66c","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error fetching real sports data: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async d (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2640)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2160)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028)
+    at async r9.renderToResponseWithComponentsImpl (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:508) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETCPEF0G6T8FYNSZEDMMP",""
+"2025-06-18 12:04:33",1750248273067,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"x472z-1750248272533-cb3383c6b66c","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Fetching real sports data: { dataType: 'standings', league: 'premier-league' }","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETCPEF0G6T8FYNSZEDMMP",""
+"2025-06-18 12:04:33",1750248273067,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"x472z-1750248272533-cb3383c6b66c","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Real sports post request: {
+  action: 'fetch-real-data',
+  botId: undefined,
+  league: 'premier-league',
+  dataType: 'standings'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETCPEF0G6T8FYNSZEDMMP",""
+"2025-06-18 12:04:32",1750248272590,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",200,"x472z-1750248272533-cb3383c6b66c","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",471,"iad1",126,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ETCPEF0G6T8FYNSZEDMMP","CFr5EBgDXZxx"
+"2025-06-18 12:04:24",1750248264748,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"85f4b-1750248264299-9579407e1653","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error enhancing content with AI: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async w (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:15:1537)
+    at async h (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:3370)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2212)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3001
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3001
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET4P28PBTC403KK0W14C0",""
+"2025-06-18 12:04:24",1750248264745,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"85f4b-1750248264299-9579407e1653","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error generating real sports charts: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async m (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:15:917)
+    at async h (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:3357)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2212)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3001
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3001
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET4P28PBTC403KK0W14C0",""
+"2025-06-18 12:04:24",1750248264728,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"85f4b-1750248264299-9579407e1653","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Generating post with real data: {
+  botId: '639e27ae-47a9-4879-9b61-88f241b34624',
+  dataType: 'standings'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET4P28PBTC403KK0W14C0",""
+"2025-06-18 12:04:24",1750248264728,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"85f4b-1750248264299-9579407e1653","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Real sports post request: {
+  action: 'generate-post-with-charts',
+  botId: '639e27ae-47a9-4879-9b61-88f241b34624',
+  league: undefined,
+  dataType: 'results'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET4P28PBTC403KK0W14C0",""
+"2025-06-18 12:04:24",1750248264386,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",200,"85f4b-1750248264299-9579407e1653","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",359,"iad1",121,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET4P28PBTC403KK0W14C0","CFr5EBgDXZxx"
+"2025-06-18 12:04:24",1750248264153,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"jzzdd-1750248263474-5370d61f2e77","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error fetching real sports data: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async d (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2640)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2160)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028)
+    at async r9.renderToResponseWithComponentsImpl (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:508) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET3WWPP3M09ZBM8D4SBAP",""
+"2025-06-18 12:04:24",1750248264148,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"jzzdd-1750248263474-5370d61f2e77","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Fetching real sports data: { dataType: 'standings', league: 'premier-league' }","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET3WWPP3M09ZBM8D4SBAP",""
+"2025-06-18 12:04:24",1750248264148,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"jzzdd-1750248263474-5370d61f2e77","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Real sports post request: {
+  action: 'fetch-real-data',
+  botId: undefined,
+  league: 'premier-league',
+  dataType: 'standings'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET3WWPP3M09ZBM8D4SBAP",""
+"2025-06-18 12:04:23",1750248263580,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",200,"jzzdd-1750248263474-5370d61f2e77","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",585,"iad1",113,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ET3WWPP3M09ZBM8D4SBAP","CFr5EBgDXZxx"
+"2025-06-18 12:04:11",1750248251779,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"8sch7-1750248251210-49917f93f397","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error enhancing content with AI: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async w (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:15:1537)
+    at async h (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:3370)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2212)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3001
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3001
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESQVVZ4C7D76D4GVXJQ1B",""
+"2025-06-18 12:04:11",1750248251776,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"8sch7-1750248251210-49917f93f397","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error generating real sports charts: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async m (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:15:917)
+    at async h (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:3357)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2212)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3001
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3001
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESQVVZ4C7D76D4GVXJQ1B",""
+"2025-06-18 12:04:11",1750248251644,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"8sch7-1750248251210-49917f93f397","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Generating post with real data: { botId: '639e27ae-47a9-4879-9b61-88f241b34624', dataType: 'results' }","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESQVVZ4C7D76D4GVXJQ1B",""
+"2025-06-18 12:04:11",1750248251644,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"8sch7-1750248251210-49917f93f397","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Real sports post request: {
+  action: 'generate-post-with-charts',
+  botId: '639e27ae-47a9-4879-9b61-88f241b34624',
+  league: undefined,
+  dataType: 'results'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESQVVZ4C7D76D4GVXJQ1B",""
+"2025-06-18 12:04:11",1750248251259,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",200,"8sch7-1750248251210-49917f93f397","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",508,"iad1",131,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESQVVZ4C7D76D4GVXJQ1B","pX6VLpFfz6dv"
+"2025-06-18 12:04:11",1750248251061,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"wqsws-1750248250052-868397af0c94","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","error","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Error fetching real sports data: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async d (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2640)
+    at async p (/var/task/.next/server/app/api/content/generate-real-sports-post/route.js:1:2160)
+    at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38411
+    at async e_.execute (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:27880)
+    at async e_.handle (/var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:39943)
+    at async en (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25561)
+    at async ea.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1028)
+    at async r9.renderToResponseWithComponentsImpl (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:508) {
+  [cause]: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESPVT3VYV50KKFWK836Q7",""
+"2025-06-18 12:04:11",1750248251042,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"wqsws-1750248250052-868397af0c94","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Fetching real sports data: { dataType: 'results', league: 'premier-league' }","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESPVT3VYV50KKFWK836Q7",""
+"2025-06-18 12:04:11",1750248251041,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",-1,"wqsws-1750248250052-868397af0c94","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"iad1",-1,-1,"Real sports post request: {
+  action: 'fetch-real-data',
+  botId: undefined,
+  league: 'premier-league',
+  dataType: 'results'
+}","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESPVT3VYV50KKFWK836Q7",""
+"2025-06-18 12:04:10",1750248250234,"telegrambot-three-liart.vercel.app/api/content/generate-real-sports-post","POST","",200,"wqsws-1750248250052-868397af0c94","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/api/content/generate-real-sports-post","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",1045,"iad1",122,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESPVT3VYV50KKFWK836Q7","pX6VLpFfz6dv"
+"2025-06-18 12:04:07",1750248247407,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/channels","GET","",200,"zhzlc-1750248247193-1db3e3bb9df0","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/dashboard/bots/[id]/channels","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",18,"iad1",106,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESM3GXBTPZJ60C1T94DDV","2ZEJr61oh6on"
+"2025-06-18 12:04:07",1750248247197,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/channels","GET","",200,"zhzlc-1750248247193-1db3e3bb9df0","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"[bots] / status=200","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESKWXNRKCNW2T2TSYRJBH","pLcgeRJH1Bej"
+"2025-06-18 12:04:05",1750248245686,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/content","GET","",200,"9kkfw-1750248245588-f79363c124e4","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/dashboard/bots/[id]/content","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",36,"iad1",105,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESJDPJ60TSTNK4YV6PBZA","2ZEJr61oh6on"
+"2025-06-18 12:04:05",1750248245593,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/content","GET","",200,"9kkfw-1750248245588-f79363c124e4","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"[bots] / status=200","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESJASBERXSDTHXK3AN02N","pLcgeRJH1Bej"
+"2025-06-18 12:04:01",1750248241865,"telegrambot-three-liart.vercel.app/dashboard/bots","GET","",200,"6q9jf-1750248240935-faf71f1859b4","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/dashboard/bots","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:04:01",1750248241789,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/analytics","GET","",200,"wqsws-1750248241561-37465137e324","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/dashboard/bots/[id]/analytics","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",18,"iad1",112,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESEKX8ZNMMPFG58K8HA32","13rOIZ5S6j93"
+"2025-06-18 12:04:01",1750248241564,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/analytics","GET","",200,"wqsws-1750248241561-37465137e324","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"[bots] / status=200","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESECWB2V0PG2X88HPJK2V","8uWaKxa5BgG3"
+"2025-06-18 12:04:01",1750248241354,"telegrambot-three-liart.vercel.app/dashboard/bots/new","GET","",200,"vbml9-1750248240936-1b9a5f218f86","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/dashboard/bots/new","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:04:01",1750248241250,"telegrambot-three-liart.vercel.app/dashboard/admin","GET","",200,"cmr5t-1750248240935-61ca0bcd8ae6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/dashboard/admin","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:04:01",1750248241205,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/content","GET","",200,"6lshp-1750248240935-95fff904616f","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/dashboard/bots/[id]/content","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",200,"iad1",103,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESE1NHWWY4WVKMRYRF2ET","2ZEJr61oh6on"
+"2025-06-18 12:04:01",1750248241180,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/edit","GET","",200,"wqsws-1750248240935-e0030679645d","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","lambda","/dashboard/bots/[id]/edit","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",463,"iad1",112,1024,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESE0WW6HH2B1YZS2B7V1G","13rOIZ5S6j93"
+"2025-06-18 12:04:00",1750248240947,"telegrambot-three-liart.vercel.app/dashboard/bots/new","GET","",200,"vbml9-1750248240936-1b9a5f218f86","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESDSKS6561BE470G3P54W","8uWaKxa5BgG3"
+"2025-06-18 12:04:00",1750248240946,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/content","GET","",200,"6lshp-1750248240935-95fff904616f","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"[bots] / status=200","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESDSJ73P5631C1C5CZ2QB","8uWaKxa5BgG3"
+"2025-06-18 12:04:00",1750248240945,"telegrambot-three-liart.vercel.app/dashboard/bots","GET","",200,"6q9jf-1750248240935-faf71f1859b4","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESDSHTMYNPANBDP0GACAM","pLcgeRJH1Bej"
+"2025-06-18 12:04:00",1750248240941,"telegrambot-three-liart.vercel.app/dashboard/bots/639e27ae-47a9-4879-9b61-88f241b34624/edit","GET","",200,"wqsws-1750248240935-e0030679645d","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"[bots] / status=200","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESDSDH2VCQWPEN30HN2BS","8uWaKxa5BgG3"
+"2025-06-18 12:04:00",1750248240940,"telegrambot-three-liart.vercel.app/dashboard/admin","GET","",200,"cmr5t-1750248240935-61ca0bcd8ae6","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESDSDH2VCQWPEMZZFHG3Y","8uWaKxa5BgG3"
+"2025-06-18 12:03:59",1750248239833,"telegrambot-three-liart.vercel.app/dashboard","GET","",200,"r92hr-1750248239551-f2a5e51e1342","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/dashboard","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:03:59",1750248239560,"telegrambot-three-liart.vercel.app/dashboard","GET","",200,"r92hr-1750248239551-f2a5e51e1342","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ESCE86YE6S460E0PAV40R","8uWaKxa5BgG3"
+"2025-06-18 12:02:49",1750248169363,"telegrambot-three-liart.vercel.app/auth/login","GET","",200,"p9r24-1750248169069-4e6aae2cc161","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/auth/login","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:02:49",1750248169082,"telegrambot-three-liart.vercel.app/auth/login","GET","",200,"p9r24-1750248169069-4e6aae2cc161","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1EQ7KTSWYF2JW31Z71G3CF","8uWaKxa5BgG3"
+"2025-06-18 12:02:33",1750248153343,"telegrambot-three-liart.vercel.app/auth/login","GET","",200,"5l62s-1750248153028-7745932fca7a","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/auth/login","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:02:33",1750248153034,"telegrambot-three-liart.vercel.app/auth/login","GET","",200,"5l62s-1750248153028-7745932fca7a","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1EPQYAW2DRXFCTQF1ZYBM8","8uWaKxa5BgG3"
+"2025-06-18 12:02:32",1750248152269,"telegrambot-three-liart.vercel.app/","GET","",200,"ssnqf-1750248151510-456d80c09471","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","PRERENDER","static","/","telegrambot-three-liart.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:02:31",1750248151883,"telegrambot-three-liart.vercel.app/","GET","",200,"ssnqf-1750248151510-456d80c09471","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36","info","production","main","MISS","edge-middleware","/middleware","telegrambot-three-liart.vercel.app","telegrambot-three-liart.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"fra1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1EPPTBKA3KRH9A39YC3MG9","8uWaKxa5BgG3"
+"2025-06-18 12:02:30",1750248150387,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"fs7th-1750248150375-c3c0483dfbeb","vercel-favicon/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1EPNBKGCDDHMWVEFKA2804","G9iC1xjR8gpw"
+"2025-06-18 12:02:08",1750248128034,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/auth/login","GET","",200,"9vh25-1750248128027-85d5f3ecbbb1","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENZH271E0YS4VYE3DPT7R","G9iC1xjR8gpw"
+"2025-06-18 12:02:07",1750248127847,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"tht6j-1750248127841-a8cde90671a8","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENZB7H4JTPTC1NENE0BQ4","G9iC1xjR8gpw"
+"2025-06-18 12:02:06",1750248126235,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/auth/login","GET","",200,"dtckt-1750248126230-42f37b86e2da","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENXRVJT5CGJTYNPNF0TXB","G9iC1xjR8gpw"
+"2025-06-18 12:02:06",1750248126064,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/auth/login","GET","",200,"fs7th-1750248125857-4c8b079bae1a","vercel-screenshot/1.0","info","production","main","PRERENDER","static","/auth/login","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:02:05",1750248125865,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/auth/login","GET","",200,"fs7th-1750248125857-4c8b079bae1a","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENXD9910SK85HZ4C6DGV1","G9iC1xjR8gpw"
+"2025-06-18 12:02:05",1750248125559,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"4k76m-1750248125553-7eca7fccb0df","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENX3QM49K19ANWR4EG2ZC","G9iC1xjR8gpw"
+"2025-06-18 12:02:05",1750248125346,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"hnkh5-1750248125324-a44b86dfedea","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENWX2FH0HK0967D2SV6ND","G9iC1xjR8gpw"
+"2025-06-18 12:02:05",1750248125101,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"z85mm-1750248124687-c26e2ef1973a","vercel-screenshot/1.0","info","production","main","PRERENDER","static","/","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:02:05",1750248125083,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"w8wxr-1750248124820-4c4c8beccd65","vercel-screenshot/1.0","info","production","main","PRERENDER","static","/","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","",""
+"2025-06-18 12:02:04",1750248124936,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"w8wxr-1750248124820-4c4c8beccd65","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENWG8X4RBJSHEV1EC9NTC","G9iC1xjR8gpw"
+"2025-06-18 12:02:04",1750248124826,"telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app/","GET","",200,"z85mm-1750248124687-c26e2ef1973a","vercel-screenshot/1.0","info","production","main","MISS","edge-middleware","/middleware","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","telegrambot-feuo3t3fm-idosegev23s-projects.vercel.app","dpl_9MFGWp8CxSpW671v4WirD1GLWRgP",-1,"sfo1",-1,-1,"","prj_HIr0MbDCEkD6eduv5eV3gtt0ypuA","","","01JY1ENWCTW6JFVSJDYHC5HZ4P","G9iC1xjR8gpw"
