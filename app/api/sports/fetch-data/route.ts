@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { createProgressSession, updateProgress } from '../progress/route'
+import { sportsCache } from '@/lib/sports-api-cache'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -119,6 +120,27 @@ export async function GET(request: NextRequest) {
 
     // Initialize progress tracker
     const sessionId = createProgressSession(MAX_PARALLEL_CALLS)
+    updateProgress(sessionId, { 
+      current_task: 'Checking cache...' 
+    })
+
+    // Check cache first (smart caching based on data type)
+    const cacheParams = { dataType, league: league || 'all', region: region || 'global' }
+    const cachedData = await sportsCache.shouldUseCache(dataType, cacheParams)
+    
+    if (cachedData) {
+      console.log(`🚀 Cache hit! Returning cached ${dataType} data`)
+      return NextResponse.json({
+        success: true,
+        data: cachedData.data,
+        source: `cache_${cachedData.api_source}`,
+        cached_at: new Date(cachedData.timestamp).toISOString(),
+        processing_time: Date.now() - overallStartTime,
+        session_id: sessionId,
+        cache_hit: true
+      })
+    }
+
     updateProgress(sessionId, { 
       current_task: 'Getting available APIs...' 
     })
@@ -278,6 +300,13 @@ export async function GET(request: NextRequest) {
     
     // Format and cache the data
     const formattedData = formatSportsData(sportsData, dataType, region || undefined)
+    
+    // Cache using smart cache system
+    if (apiUsed) {
+      await sportsCache.storeInCache(dataType, cacheParams, formattedData, apiUsed)
+    }
+    
+    // Also keep the old cache for compatibility
     await cacheSportsData(dataType, league || null, region || null, formattedData, apiUsed || null)
 
     const totalProcessingTime = Date.now() - overallStartTime
