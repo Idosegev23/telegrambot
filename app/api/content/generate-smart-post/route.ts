@@ -87,55 +87,81 @@ export async function POST(req: NextRequest) {
 
 async function scanLatestSportsData(league?: string) {
   try {
-    // Simulate real sports data - in production, use actual APIs
-    const latestData = {
-      matches: [
-        {
-          id: 'match_1',
-          homeTeam: 'Manchester United',
-          awayTeam: 'Liverpool',
-          date: new Date().toISOString(),
-          status: 'live',
-          homeScore: 1,
-          awayScore: 2,
-          league: 'Premier League'
-        },
-        {
-          id: 'match_2', 
-          homeTeam: 'Barcelona',
-          awayTeam: 'Real Madrid',
-          date: new Date().toISOString(),
-          status: 'upcoming',
-          league: 'La Liga'
-        }
-      ],
-      news: [
-        {
-          id: 'news_1',
-          title: 'Transfer Update: Mbappe to Real Madrid',
-          summary: 'Latest developments in the biggest transfer of the season',
-          timestamp: new Date().toISOString(),
-          league: 'La Liga'
-        }
-      ],
-      standings: [
-        {
-          team: 'Manchester City',
-          position: 1,
-          points: 78,
-          played: 32,
-          league: 'Premier League'
-        }
-      ]
+    // Get real sports data from our API
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://telegrambot-three-liart.vercel.app' 
+      : 'http://localhost:3000'
+    
+    // Fetch real data from our sports API
+    const [resultsResponse, fixturesResponse, standingsResponse] = await Promise.allSettled([
+      fetch(`${baseUrl}/api/sports/fetch-data?type=results`),
+      fetch(`${baseUrl}/api/sports/fetch-data?type=fixtures`), 
+      fetch(`${baseUrl}/api/sports/fetch-data?type=standings`)
+    ])
+
+    let recentMatches: any[] = []
+    let upcomingMatches: any[] = []
+    let standingsData: any[] = []
+    let availableLeagues: string[] = []
+
+    // Process results
+    if (resultsResponse.status === 'fulfilled' && resultsResponse.value.ok) {
+      const resultsData = await resultsResponse.value.json()
+      if (resultsData.success && resultsData.data?.content?.recent_results) {
+        recentMatches = resultsData.data.content.recent_results.map((match: any, index: number) => ({
+          id: `result_${index}`,
+          homeTeam: match.home_team,
+          awayTeam: match.away_team,
+          homeScore: match.home_score,
+          awayScore: match.away_score,
+          date: match.date,
+          status: 'finished',
+          league: match.competition || 'Unknown League'
+        }))
+      }
     }
+
+    // Process fixtures  
+    if (fixturesResponse.status === 'fulfilled' && fixturesResponse.value.ok) {
+      const fixturesData = await fixturesResponse.value.json()
+      if (fixturesData.success && fixturesData.data?.content?.upcoming_matches) {
+        upcomingMatches = fixturesData.data.content.upcoming_matches.map((match: any, index: number) => ({
+          id: `fixture_${index}`,
+          homeTeam: match.home_team,
+          awayTeam: match.away_team,
+          date: match.date,
+          time: match.time,
+          status: 'upcoming',
+          league: match.competition || 'Unknown League'
+        }))
+      }
+    }
+
+    // Process standings
+    if (standingsResponse.status === 'fulfilled' && standingsResponse.value.ok) {
+      const standingsDataResponse = await standingsResponse.value.json()
+      if (standingsDataResponse.success && standingsDataResponse.data?.content?.table) {
+        standingsData = standingsDataResponse.data.content.table
+      }
+    }
+
+    // Extract unique leagues
+    const allMatches = [...recentMatches, ...upcomingMatches]
+    const leagueSet = new Set(allMatches.map(m => m.league).filter(l => l && l !== 'Unknown League'))
+    availableLeagues = Array.from(leagueSet)
 
     return {
       scanTime: new Date().toISOString(),
-      totalMatches: latestData.matches.length,
-      liveMatches: latestData.matches.filter(m => m.status === 'live').length,
-      recentNews: latestData.news.length,
-      availableLeagues: ['Premier League', 'La Liga', 'Champions League', 'Serie A'],
-      latestData
+      totalMatches: allMatches.length,
+      liveMatches: 0, // We don't have live match status in current API
+      recentResults: recentMatches.length,
+      upcomingMatches: upcomingMatches.length,
+      availableLeagues,
+      latestData: {
+        recentMatches,
+        upcomingMatches,
+        standings: standingsData
+      }
     }
   } catch (error) {
     console.error('Error scanning sports data:', error)
@@ -144,29 +170,98 @@ async function scanLatestSportsData(league?: string) {
 }
 
 async function getTeamsForLeague(league: string) {
-  const teamsData: Record<string, Array<{id: string, name: string, emoji: string}>> = {
-    'Premier League': [
-      { id: 'mun', name: 'Manchester United', emoji: '🔴' },
-      { id: 'mci', name: 'Manchester City', emoji: '🔵' },
-      { id: 'liv', name: 'Liverpool', emoji: '🔴' },
-      { id: 'che', name: 'Chelsea', emoji: '🔵' },
-      { id: 'ars', name: 'Arsenal', emoji: '🔴' },
-      { id: 'tot', name: 'Tottenham', emoji: '⚪' }
-    ],
-    'La Liga': [
-      { id: 'rm', name: 'Real Madrid', emoji: '⚪' },
-      { id: 'bar', name: 'Barcelona', emoji: '🔵' },
-      { id: 'atm', name: 'Atletico Madrid', emoji: '🔴' },
-      { id: 'sev', name: 'Sevilla', emoji: '⚪' }
-    ],
-    'Champions League': [
-      { id: 'psg', name: 'PSG', emoji: '🔵' },
-      { id: 'bay', name: 'Bayern Munich', emoji: '🔴' },
-      { id: 'juv', name: 'Juventus', emoji: '⚪' }
-    ]
-  }
+  try {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://telegrambot-three-liart.vercel.app' 
+      : 'http://localhost:3000'
+    
+    // Get real teams data from standings and recent matches
+    const [standingsResponse, resultsResponse] = await Promise.allSettled([
+      fetch(`${baseUrl}/api/sports/fetch-data?type=standings`),
+      fetch(`${baseUrl}/api/sports/fetch-data?type=results`)
+    ])
 
-  return teamsData[league] || []
+    let teams: Array<{id: string, name: string, emoji: string}> = []
+    const teamSet = new Set<string>()
+
+    // Extract teams from standings
+    if (standingsResponse.status === 'fulfilled' && standingsResponse.value.ok) {
+      const standingsData = await standingsResponse.value.json()
+      if (standingsData.success && standingsData.data?.content?.table) {
+        standingsData.data.content.table.forEach((entry: any) => {
+          if (entry.team && !teamSet.has(entry.team)) {
+            teamSet.add(entry.team)
+            teams.push({
+              id: entry.team.toLowerCase().replace(/\s+/g, '_'),
+              name: entry.team,
+              emoji: getTeamEmoji(entry.team)
+            })
+          }
+        })
+      }
+    }
+
+    // Extract additional teams from recent matches if needed
+    if (teams.length < 5 && resultsResponse.status === 'fulfilled' && resultsResponse.value.ok) {
+      const resultsData = await resultsResponse.value.json()
+      if (resultsData.success && resultsData.data?.content?.recent_results) {
+        resultsData.data.content.recent_results.forEach((match: any) => {
+          // Filter by league if specified
+          if (league && match.competition && !match.competition.toLowerCase().includes(league.toLowerCase())) {
+            return
+          }
+
+          [match.home_team, match.away_team].forEach((teamName: string) => {
+            if (teamName && teamName !== 'TBD' && !teamSet.has(teamName)) {
+              teamSet.add(teamName)
+              teams.push({
+                id: teamName.toLowerCase().replace(/\s+/g, '_'),
+                name: teamName,
+                emoji: getTeamEmoji(teamName)
+              })
+            }
+          })
+        })
+      }
+    }
+
+    // Sort teams alphabetically and limit to reasonable number
+    return teams.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 20)
+
+  } catch (error) {
+    console.error('Error fetching teams for league:', error)
+    // Fallback to empty array
+    return []
+  }
+}
+
+function getTeamEmoji(teamName: string): string {
+  const name = teamName.toLowerCase()
+  
+  // Common team emoji mappings
+  if (name.includes('real') && name.includes('madrid')) return '⚪'
+  if (name.includes('barcelona')) return '🔵'
+  if (name.includes('atletico')) return '🔴'
+  if (name.includes('manchester') && name.includes('united')) return '🔴'
+  if (name.includes('manchester') && name.includes('city')) return '🔵'
+  if (name.includes('liverpool')) return '🔴'
+  if (name.includes('chelsea')) return '🔵'
+  if (name.includes('arsenal')) return '🔴'
+  if (name.includes('tottenham')) return '⚪'
+  if (name.includes('bayern')) return '🔴'
+  if (name.includes('juventus')) return '⚪'
+  if (name.includes('psg') || name.includes('paris')) return '🔵'
+  
+  // Generic emojis based on common words
+  if (name.includes('united') || name.includes('red')) return '🔴'
+  if (name.includes('city') || name.includes('blue')) return '🔵'
+  if (name.includes('white') || name.includes('real')) return '⚪'
+  if (name.includes('black')) return '⚫'
+  if (name.includes('green')) return '🟢'
+  if (name.includes('yellow')) return '🟡'
+  
+  // Default emoji
+  return '⚽'
 }
 
 async function generateSmartPost(options: {
@@ -248,36 +343,133 @@ async function generateSmartPost(options: {
 }
 
 async function getRealSportsData(league: string, team?: string) {
-  // Simulate real API calls - replace with actual sports APIs
-  return {
-    league,
-    team,
-    recentMatches: [
-      {
-        home: team || 'Team A',
-        away: 'Team B',
-        score: '2-1',
-        date: '2024-01-15'
+  try {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://telegrambot-three-liart.vercel.app' 
+      : 'http://localhost:3000'
+    
+    // Fetch real data from our sports API
+    const [resultsResponse, fixturesResponse, standingsResponse] = await Promise.allSettled([
+      fetch(`${baseUrl}/api/sports/fetch-data?type=results`),
+      fetch(`${baseUrl}/api/sports/fetch-data?type=fixtures`), 
+      fetch(`${baseUrl}/api/sports/fetch-data?type=standings`)
+    ])
+
+    let recentMatches: any[] = []
+    let upcomingMatches: any[] = []
+    let standings: any = null
+    let teamStandings: any = null
+
+    // Process results
+    if (resultsResponse.status === 'fulfilled' && resultsResponse.value.ok) {
+      const resultsData = await resultsResponse.value.json()
+      if (resultsData.success && resultsData.data?.content?.recent_results) {
+        recentMatches = resultsData.data.content.recent_results
+          .filter((match: any) => {
+            // Filter by league and/or team if specified
+            const matchesLeague = !league || match.competition?.toLowerCase().includes(league.toLowerCase())
+            const matchesTeam = !team || 
+              match.home_team?.toLowerCase().includes(team.toLowerCase()) ||
+              match.away_team?.toLowerCase().includes(team.toLowerCase())
+            return matchesLeague && matchesTeam
+          })
+          .slice(0, 5) // Last 5 matches
       }
-    ],
-    standings: {
-      position: 3,
-      points: 45,
-      played: 20,
-      won: 14,
-      drawn: 3,
-      lost: 3
-    },
-    playerStats: {
-      topScorer: 'Player Name',
-      goals: 15,
-      assists: 8
-    },
-    form: ['W', 'W', 'L', 'W', 'D'], // Last 5 matches
-    nextMatch: {
-      opponent: 'Next Team',
-      date: '2024-01-20',
-      venue: 'Home'
+    }
+
+    // Process fixtures  
+    if (fixturesResponse.status === 'fulfilled' && fixturesResponse.value.ok) {
+      const fixturesData = await fixturesResponse.value.json()
+      if (fixturesData.success && fixturesData.data?.content?.upcoming_matches) {
+        upcomingMatches = fixturesData.data.content.upcoming_matches
+          .filter((match: any) => {
+            const matchesLeague = !league || match.competition?.toLowerCase().includes(league.toLowerCase())
+            const matchesTeam = !team || 
+              match.home_team?.toLowerCase().includes(team.toLowerCase()) ||
+              match.away_team?.toLowerCase().includes(team.toLowerCase())
+            return matchesLeague && matchesTeam
+          })
+          .slice(0, 3) // Next 3 matches
+      }
+    }
+
+    // Process standings
+    if (standingsResponse.status === 'fulfilled' && standingsResponse.value.ok) {
+      const standingsData = await standingsResponse.value.json()
+      if (standingsData.success && standingsData.data?.content?.table) {
+        standings = standingsData.data.content.table
+        
+        // Find specific team in standings if specified
+        if (team && standings.length > 0) {
+          teamStandings = standings.find((entry: any) => 
+            entry.team?.toLowerCase().includes(team.toLowerCase())
+          ) || standings[0] // Fallback to first team
+        }
+      }
+    }
+
+    // Calculate team form from recent matches
+    const form = recentMatches.map((match: any) => {
+      if (!team) return 'N/A'
+      
+      const isHome = match.home_team?.toLowerCase().includes(team.toLowerCase())
+      const isAway = match.away_team?.toLowerCase().includes(team.toLowerCase())
+      
+      if (isHome) {
+        if (match.home_score > match.away_score) return 'W'
+        if (match.home_score < match.away_score) return 'L'
+        return 'D'
+      } else if (isAway) {
+        if (match.away_score > match.home_score) return 'W'
+        if (match.away_score < match.home_score) return 'L'
+        return 'D'
+      }
+      return 'N/A'
+    }).filter(f => f !== 'N/A').slice(0, 5)
+
+    return {
+      league,
+      team,
+      recentMatches: recentMatches.map((match: any) => ({
+        home: match.home_team,
+        away: match.away_team,
+        score: `${match.home_score}-${match.away_score}`,
+        date: match.date
+      })),
+      standings: teamStandings || {
+        position: standings?.[0]?.position || 1,
+        team: standings?.[0]?.team || 'Unknown',
+        points: standings?.[0]?.points || 0,
+        played: standings?.[0]?.played || 0,
+        wins: standings?.[0]?.wins || 0,
+        draws: standings?.[0]?.draws || 0,
+        losses: standings?.[0]?.losses || 0
+      },
+      form: form.length > 0 ? form : ['N/A'],
+      nextMatch: upcomingMatches.length > 0 ? {
+        opponent: team && upcomingMatches[0].home_team?.toLowerCase().includes(team.toLowerCase()) 
+          ? upcomingMatches[0].away_team 
+          : upcomingMatches[0].home_team,
+        date: upcomingMatches[0].date,
+        venue: team && upcomingMatches[0].home_team?.toLowerCase().includes(team.toLowerCase()) 
+          ? 'Home' 
+          : 'Away'
+      } : null,
+      allStandings: standings || [],
+      totalMatches: recentMatches.length,
+      upcomingMatches: upcomingMatches.length
+    }
+  } catch (error) {
+    console.error('Error fetching real sports data:', error)
+    // Fallback to basic structure
+    return {
+      league,
+      team,
+      recentMatches: [],
+      standings: null,
+      form: [],
+      nextMatch: null,
+      error: 'Failed to fetch real sports data'
     }
   }
 }
